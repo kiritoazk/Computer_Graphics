@@ -5,9 +5,9 @@
 using namespace std;
 #define pi 3.1415926
 void init(void){
-    glClearColor(1.0,1.0,1.0,0.0);// make the background white
-    glMatrixMode(GL_PROJECTION);//set  projection parameters.
-    gluOrtho2D(0.0,200.0,0.0,150.0);//set the window's position and size
+    glClearColor(1.0,1.0,1.0,0.0);// 使背景变白
+    glMatrixMode(GL_PROJECTION);//设置投影参数s.
+    gluOrtho2D(0.0,200.0,0.0,150.0);//设置窗口的位置和大小
 }
 void ChangeSize(GLsizei w, GLsizei h) {
 	if (h == 0)
@@ -20,7 +20,7 @@ void ChangeSize(GLsizei w, GLsizei h) {
 	else
 		glOrtho(0.0f, 250.0f*w / h, 0.0f, 250.0f, 1.0, -1.0);
 }
-//set the point's parameters,describe the relation between the point and other points
+//设置点的参数，描述点与其他点的关系
 void CirclePoint(int x0,int y0,int x,int y){
     //set the color of the points
     glColor3f(0.0, 0.0, 1.0);
@@ -34,11 +34,11 @@ void CirclePoint(int x0,int y0,int x,int y){
 	glVertex2f(x0 + y0 - y, x + (y0 - x0));
 	glVertex2f(2 * x0 - x, y);
 }
-//draw a circle in the middle algorithm,and the x0,y0 is the heart of the circle,the r is the radius of the circle
+//中间画圆算法，x0,y0是圆心，r是圆的半径
 void MidPointCircle(int x0,int y0,int r){
-    glColor3f(0.0, 0.0, 1.0);  //set the color of the point to bule
-	glPointSize(2.0f);        //set the size of the point
-	glVertex2f(x0, y0);        //draw the heart
+    glColor3f(0.0, 0.0, 1.0);  //将点的颜色设置为蓝色
+	glPointSize(2.0f);        //设置点的大小
+	glVertex2f(x0, y0);        //画心
 	int x, y;
 	int d,b;
 	x = x0; y = r + y0; d = 5 - 4 * r; b = y0 - x0;
