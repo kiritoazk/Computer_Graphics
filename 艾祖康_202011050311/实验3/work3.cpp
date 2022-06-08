@@ -1,72 +1,69 @@
-#include <stdlib.h>
-#include <math.h>
+//Bresenham划线算法
+//绘制斜率大于0且小于1的线段
 #include <GL/glut.h>
-#include <stdio.h>
-
-//收集点的坐标
-void setPixel(GLint x, GLint y) {
-	glBegin(GL_POINTS);
-	glVertex2i(x, y);
-	glEnd();
-}
-//利用bresenham算法利用点求斜率画直线
-void lineBres(int x0,int y0,int xEnd,int yEnd){
-	int dx = fabs(xEnd - x0);
-	int dy = fabs(yEnd - y0);
-	int p = 2 * dy - dx;
-	int twoDy = 2 * dy;
-	int twoDyMinusDx = 2 * (dy - dx);
-	int x, y;
-	if (x0 > xEnd) {
-		x = xEnd;
-		y = yEnd;
-		xEnd = x0;
-	}
-	else {
-		x = x0; 
-		y = y0;
-	}
-	setPixel(x, y);
-	while(x<xEnd){
-		x++;
-		if (p < 0) {
-			p = p + twoDy;
-		}
-		else {
-			y++;
-			p = p + twoDyMinusDx;
-		}
-		setPixel(x, y);
-	}
-}
-//初始化
-void Init(void)
+#include <iostream>
+#include <cmath>
+using namespace std;
+ 
+void init()
 {
-	glClearColor(1.0, 1.0, 1.0, 0.0);
+	glClearColor(1.0,1.0,1.0,1.0);
 	glMatrixMode(GL_PROJECTION);
-	gluOrtho2D(0.0, 500.0, 0.0, 500.0);
+	glLoadIdentity();
+	gluOrtho2D(0.0,200.0,0.0,150.0);
 }
-//输入点的坐标
-void lineSegment(void) {
-	int x1, y1, x2, y2;
+ 
+void display()
+{
+	int x1 = 10,y1 = 10,x2 = 150,y2 = 100;
+	//cout<<"please enter the positions of start point and the end point:x1,y1,x2,y2:"<<endl;
+	//cin>>x1>>y1>>x2>>y2;
+	int dx = abs(x2 - x1);
+	int dy = abs(y2 - y1);
+	int x,y;
+	int temp1 = 2 * dy;
+	int temp2 = 2 * (dy - dx);
+	int p = temp1 - dx;
+	if(x1 > x2)
+	{
+		x = x2;
+		y = y2;
+		x2 = x1;
+	}
+	else{
+		x = x1;
+		y = y1;
+	}
+ 
 	glClear(GL_COLOR_BUFFER_BIT);
-	glColor3f(0.0, 0.4, 0.2);
+	glColor3f(1.0,0.0,0.0);
 	glBegin(GL_LINES);
-	printf("第一个坐标：");
-	scanf("%d%d", &x1, &y1);
-	printf("第二个坐标:");
-	scanf("%d%d", &x2, &y2);
-	lineBres(x1, y1, x2, y2);
+		glVertex2i(x,y);
+		while(x < x2)
+		{
+			x++;
+			if(p < 0)
+				p += temp1;
+			else
+			{
+				y++;
+				p += temp2;
+			}
+			glVertex2i(x,y);
+		}
 	glEnd();
 	glFlush();
 }
-void main(int argc, char** argv) {
-	glutInit(&argc, argv);
+ 
+int main(int argc,char** argv)
+{
+	glutInit(&argc,argv);
 	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
-	glutInitWindowPosition(0, 0);
-	glutInitWindowSize(500, 500);
-	glutCreateWindow("BresenBam");
-	glutDisplayFunc(lineSegment);
-	Init();
+	glutInitWindowPosition(50,100);
+	glutInitWindowSize(400,300);
+	glutCreateWindow("Bresenham Draw Line");
+	init();
+	glutDisplayFunc(display);
 	glutMainLoop();
+	return 0;
 }
